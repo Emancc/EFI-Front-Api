@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import About from './components/About'
 import Users from './components/Users'
+import Blogs from './components/Blogs'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/about' element={<About />} />
         <Route path="/" element={<Users />} />
+        <Route path="/blogs" element={<Blogs />} />
       </Routes>
     </div>
     </BrowserRouter>

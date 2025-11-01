@@ -7,6 +7,7 @@ const Users = () => {
     const [username, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [role, setRole] = useState("")
 
     const [edit, setEdit] = useState(false)
     const [id, setId] = useState("")
@@ -24,7 +25,7 @@ const Users = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ username, email, password, role }),
             })
             const data = await response.json()
             console.log(data);}
@@ -34,10 +35,11 @@ const Users = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ username, email, password, role}),
             })
+            console.log("Status", response.status)
             const data = await response.json()
-            console.log(data)
+            console.log("Data", data)
             setEdit(false)
             setId("")  
         }
@@ -80,9 +82,13 @@ const Users = () => {
         setName(data.username)
         setEmail(data.email)
         setPassword(data.password)
+        setRole(data.role)
     }
 
     return (
+        <div className="container">
+            <h1 className="text-center">Create & Manage Users</h1>
+            <hr />
             <div className="row">
                 <div className="col-md-4">
                     <form onSubmit={handleSubmit} className="card card-body p-4 gap-4">
@@ -91,34 +97,49 @@ const Users = () => {
                                 type="text" 
                                 name="name" 
                                 id="name"
-                                value={username}
+                                value={username || ""}
                                 className="form-control" 
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Name"
                                 autoFocus 
-                            />
+                                />
                         </div>
                         <div className="form-group">
                             <input 
                                 type="email" 
                                 name="email" 
                                 id="email" 
-                                value={email}
+                                value={email || ""}
                                 className="form-control" 
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="example@example.com"
-                            />
+                                />
                         </div>
                         <div className="form-group">
                             <input 
                                 type="password" 
                                 name="password" 
                                 id="password"
-                                value={password} 
+                                value={password || ""} 
                                 className="form-control" 
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                             />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="role" className="form-label">Role</label>
+                            <select 
+                            className="form-control"
+                            name="role" 
+                            id="role" 
+                            value={role} 
+                            onChange={(e) => setRole(e.target.value)
+                                
+                            }>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="manager">Manager</option>
+                            </select>
                         </div>
                         <button className="btn btn-primary btn-block mt-2">
                             {edit ? "Update" : "Create"}
@@ -126,12 +147,14 @@ const Users = () => {
 
                     </form>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 border border-1 rounded">
                     <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Role</th>
+                                <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -140,6 +163,8 @@ const Users = () => {
                                 <tr key={user.id}>
                                     <td>{user.username}</td>
                                     <td>{user.email}</td>
+                                    <td>{user.role}</td>
+                                    <td>{user.created_at}</td>
                                     <td className="d-flex flex-column gap-1">
                                         <button 
                                         className="btn btn-warning"
@@ -154,6 +179,7 @@ const Users = () => {
                     </table>
                 </div>
             </div>
+    </div>
     )
 }
 export default Users
