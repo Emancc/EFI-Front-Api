@@ -52,6 +52,7 @@ const Register = () => {
     setName("")
     setEmail("")
     setPassword("")
+    alert(edit ? "Usuario actualizado" : "Usuario creado");
   }
 
 
@@ -89,16 +90,14 @@ const Register = () => {
   }
 
   return (
-    <div>
-      <h1 className="text-center">Register</h1>
-      <hr />
+    <div className="container">
       <div
         className="row justify-content-center align-items-center border border-1 rounded-3 p-5 shadow-lg text-light"
         style={{ backgroundColor: "#099BC8" }}
       >
         <div className="col-md-6">
           <h2 className="text-center mb-4 fs-2 fw-bold">Registrate aqui</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label className="form-label">
                 Nombre
@@ -117,7 +116,7 @@ const Register = () => {
             </div>
 
             <div className="mb-3">
-              <label  className="form-label">
+              <label className="form-label">
                 Email
               </label>
               <input
@@ -134,7 +133,7 @@ const Register = () => {
               </div>
             </div>
             <div className="mb-3">
-              <label  className="form-label">
+              <label className="form-label">
                 Password
               </label>
               <input
@@ -148,7 +147,7 @@ const Register = () => {
               />
             </div>
             <div className="mb-3">
-              <label  className="form-label">
+              <label className="form-label">
                 Role
               </label>
               <select
@@ -219,22 +218,9 @@ const Register = () => {
             </button>
           </div>
           <h2 className="text-center mt-5">Flask con React</h2>
-          <p className="text-center">En tu dia a dia MiniBlog sera tu guia</p>
-          <p className="text-center">
-            MiniBlog es un blog que te ayudara a crear, leer, actualizar y
-            eliminar tus posts
-          </p>
-          <p className="text-center">
-            Utiliza los servicios de Flask para crear, leer, actualizar y
-            eliminar tus posts
-          </p>
-          <p className="text-center">De front-end usamos React</p>
-          <p className="text-center">De base de datos usamos MySQL</p>
-          <p className="text-center">De autenticacion usamos JWT</p>
-          <p className="text-center">De seguridad usamos bcrypt</p>
-          <p className="text-center">De despliegue usamos Heroku</p>
-          <p className="text-center">De versionado usamos Git</p>
-          <p className="text-center">De versionado usamos GitHub</p>
+          <p className="text-center fs-4 text-success">En tu dia a dia MiniBlog sera tu guia</p>
+          <p className="text-center">Proyecto creado con React y Flask con base en MySQL</p>
+          <p className="text-center">De autenticacion usamos JWT, seguridad con bcrypt, despliegue usamos Heroku, versionado usamos Git y GitHub</p>
         </div>
       </div>
     </div>
