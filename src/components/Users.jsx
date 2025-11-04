@@ -15,9 +15,9 @@ const Users = () => {
     const [users, setUsers] = useState([])
 
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        if(!edit) { 
+        if (!edit) {
             console.log(username, email, password)
             console.log(API_URL)
             const response = await fetch(`${API_URL}/users`, {
@@ -28,20 +28,21 @@ const Users = () => {
                 body: JSON.stringify({ username, email, password, role }),
             })
             const data = await response.json()
-            console.log(data);}
+            console.log(data);
+        }
         else {
             const response = await fetch(`${API_URL}/users/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, password, role}),
+                body: JSON.stringify({ username, email, password, role }),
             })
             console.log("Status", response.status)
             const data = await response.json()
             console.log("Data", data)
             setEdit(false)
-            setId("")  
+            setId("")
         }
 
         await getUsers()
@@ -51,11 +52,11 @@ const Users = () => {
         setPassword("")
     }
 
-    
-    const getUsers = async() => {
+
+    const getUsers = async () => {
         const response = await fetch(`${API_URL}/users`)
         const data = await response.json()
-        console.log(data)   
+        console.log(data)
         setUsers(data.users)
     }
 
@@ -63,7 +64,7 @@ const Users = () => {
         getUsers()
     }, [])
 
-    const deleteUser = async(id) => {
+    const deleteUser = async (id) => {
         const response = await fetch(`${API_URL}/users/${id}`, {
             method: "DELETE",
         })
@@ -72,7 +73,7 @@ const Users = () => {
         await getUsers()
     }
 
-    const updateUser = async(id) => {
+    const updateUser = async (id) => {
         const response = await fetch(`${API_URL}/users/${id}`)
         const data = await response.json()
 
@@ -93,49 +94,49 @@ const Users = () => {
                 <div className="col-md-4">
                     <form onSubmit={handleSubmit} className="card card-body p-4 gap-4">
                         <div className="form-group">
-                            <input 
-                                type="text" 
-                                name="name" 
+                            <input
+                                type="text"
+                                name="name"
                                 id="name"
                                 value={username || ""}
-                                className="form-control" 
+                                className="form-control"
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Name"
-                                autoFocus 
-                                />
+                                autoFocus
+                            />
                         </div>
                         <div className="form-group">
-                            <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
                                 value={email || ""}
-                                className="form-control" 
+                                className="form-control"
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="example@example.com"
-                                />
+                            />
                         </div>
                         <div className="form-group">
-                            <input 
-                                type="password" 
-                                name="password" 
+                            <input
+                                type="password"
+                                name="password"
                                 id="password"
-                                value={password || ""} 
-                                className="form-control" 
+                                value={password || ""}
+                                className="form-control"
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="role" className="form-label">Role</label>
-                            <select 
-                            className="form-control"
-                            name="role" 
-                            id="role" 
-                            value={role} 
-                            onChange={(e) => setRole(e.target.value)
-                                
-                            }>
+                            <select
+                                className="form-control"
+                                name="role"
+                                id="role"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)
+
+                                }>
                                 <option value="user">User</option>
                                 <option value="admin">Admin</option>
                                 <option value="manager">Manager</option>
@@ -166,12 +167,12 @@ const Users = () => {
                                     <td>{user.role}</td>
                                     <td>{user.created_at}</td>
                                     <td className="d-flex flex-column gap-1">
-                                        <button 
-                                        className="btn btn-warning"
-                                        onClick={() =>updateUser(user.id)}>Update</button>
-                                        <button 
-                                        className="btn btn-danger"
-                                        onClick={() =>deleteUser(user.id)}>Delete</button>
+                                        <button
+                                            className="btn btn-warning"
+                                            onClick={() => updateUser(user.id)}>Update</button>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => deleteUser(user.id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -179,7 +180,7 @@ const Users = () => {
                     </table>
                 </div>
             </div>
-    </div>
+        </div>
     )
 }
 export default Users

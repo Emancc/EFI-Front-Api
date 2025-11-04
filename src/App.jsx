@@ -11,18 +11,18 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
-    <Navbar />
-    <div className="container p-4">
-      <Routes>
-        <Route path='/about' element={<About />} />
-        <Route path="/" element={<Users />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </div>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+        <div className="container p-4">
+          <Routes>
+            <Route path='/about' element={<About />} />
+            <Route path="/" element={<Users />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   )
 }
