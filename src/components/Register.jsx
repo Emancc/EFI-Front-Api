@@ -7,7 +7,7 @@ const Register = () => {
         <div>
             <h1 className="text-center">Register</h1>
             <hr />
-            <div className="row justify-content-center align-items-center bg-info border border-1 rounded-3 p-2">
+            <div className="row justify-content-center align-items-center border border-1 rounded-3 p-2 shadow-lg text-light" style={{backgroundColor:"#099BC8"}}>
                 <div className="col-md-6">
                     <h2 className="text-center mb-4 fs-2 fw-bold">Registrate aqui</h2>
                     <form>
@@ -20,7 +20,7 @@ const Register = () => {
                         <div className="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Email</label>
                             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                        <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie.</div>
+                        <div id="emailHelp" class="form-text text-light">Nunca compartiremos tu email con nadie.</div>
                         </div>
                         <div className="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Password</label>
