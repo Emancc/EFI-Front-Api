@@ -54,7 +54,13 @@ const Register = () => {
 
 
   const getUsers = async () => {
-    const response = await fetch(`${API_URL}/users`)
+    const response = await fetch(`${API_URL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", 
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+    })
     const data = await response.json()
     console.log(data)
     setUsers(data.users)
