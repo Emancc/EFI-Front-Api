@@ -20,110 +20,125 @@ const Users = () => {
     const [allUsers, setAllUsers] = useState([])
     const [users, setUsers] = useState([])
 
-    // Función para crear o actualizar un usuario
-const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const bodyData = { username, email, role };
+            if (password) bodyData.password = password;
 
-    try {
-        // Construir el body dinámicamente para no enviar password vacío
-        const bodyData = { username, email, role };
-        if (password) bodyData.password = password;
+            let response, data;
 
-        let response, data;
+            if (!edit) {
+                response = await fetch(`${API_URL}/users`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(bodyData),
+                });
 
-        if (!edit) {
-            // Crear usuario
-            response = await fetch(`${API_URL}/users`, {
-                method: "POST",
+                data = await response.json();
+
+                if (!response.ok) {
+                    console.error("Server error details:", data);
+                    toast.error(data.Mensaje || data.message || JSON.stringify(data) || "Error al crear usuario");
+                    return;
+                }
+
+                toast.success("✅ Usuario creado exitosamente");
+            } else {
+                response = await fetch(`${API_URL}/users/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(bodyData),
+                });
+                data = await response.json();
+
+                if (!response.ok) {
+                    toast.error(data.Mensaje || "Error al actualizar usuario");
+                    return;
+                }
+
+                toast.success("✅ Usuario actualizado exitosamente");
+                setEdit(false);
+                setId("");
+            }
+
+            await getUsers();
+
+            setName("");
+            setEmail("");
+            setPassword("");
+            setRole("");
+        } catch (error) {
+            console.error("Error en handleSubmit:", error);
+            toast.error("Ocurrió un error inesperado");
+        }
+    };
+
+    const updateUser = async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/users/${id}`, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(bodyData),
+                }
             });
-            data = await response.json();
+
+            const data = await response.json();
 
             if (!response.ok) {
-                toast.error(data.Mensaje || "Error al crear usuario");
+                toast.error(data.Mensaje || "Error al obtener usuario");
                 return;
             }
 
-            toast.success("✅ Usuario creado exitosamente");
-        } else {
-            // Actualizar usuario
-            response = await fetch(`${API_URL}/users/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(bodyData),
-            });
-            data = await response.json();
+            setEdit(true);
+            setId(id);
 
-            if (!response.ok) {
-                toast.error(data.Mensaje || "Error al actualizar usuario");
-                return;
-            }
+            setName(data.username);
+            setEmail(data.email);
+            setPassword("");
+            setRole(data.role || "user");
 
-            toast.success("✅ Usuario actualizado exitosamente");
-            setEdit(false);
-            setId("");
+        } catch (error) {
+            console.error("Error en updateUser:", error);
+            toast.error("Ocurrió un error inesperado al cargar usuario");
         }
-
-        // Refrescar lista de usuarios
-        await getUsers();
-
-        // Limpiar inputs
-        setName("");
-        setEmail("");
-        setPassword("");
-        setRole("");
-    } catch (error) {
-        console.error("Error en handleSubmit:", error);
-        toast.error("Ocurrió un error inesperado");
-    }
-};
-
-const updateUser = async (id) => {
-    try {
-        const response = await fetch(`${API_URL}/users/${id}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            toast.error(data.Mensaje || "Error al obtener usuario");
-            return;
-        }
-
-        setEdit(true);
-        setId(id);
-
-        setName(data.username);
-        setEmail(data.email);
-        setPassword("");  // No mostrar la contraseña
-        setRole(data.role || "user");
-
-    } catch (error) {
-        console.error("Error en updateUser:", error);
-        toast.error("Ocurrió un error inesperado al cargar usuario");
-    }
-};
-
+    };
 
 
     const getUsers = async () => {
+        const response = await fetch(`${API_URL}/users`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+        });
+
+        if (response.status === 401) {
+            console.error("Authentication failed: Session might be invalid or expired.");
+            return;
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setAllUsers(data.users);
+        setUsers(data.users);
+        localStorage.setItem("users", JSON.stringify(data.users));
+    }
+/*     const getUsers = async () => {
         const response = await fetch(`${API_URL}/users`)
         const data = await response.json()
         console.log(data)
         setAllUsers(data.users)
         setUsers(data.users)
         localStorage.setItem("users", JSON.stringify(data.users))
-    }
+    } */
 
     useEffect(() => {
         getUsers()
@@ -141,17 +156,23 @@ const updateUser = async (id) => {
             cancelButtonText: "Cancelar",
         });
 
-        if (!result.isConfirmed) return; // si cancela, no hace nada
+        if (!result.isConfirmed) return;
 
         try {
-            const response = await fetch(`${API_URL}/users/${id}`, { method: "DELETE" });
+            const response = await fetch(`${API_URL}/users/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             if (!response.ok) throw new Error("Error al eliminar usuario");
 
             const data = await response.json();
             console.log(data);
             toast.info("🗑️ Usuario eliminado correctamente");
             await Swal.fire("Eliminado", "El usuario fue eliminado correctamente.", "success");
-            
+
             await getUsers();
         } catch (error) {
             console.error(error);
