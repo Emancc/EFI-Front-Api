@@ -5,6 +5,8 @@ import Users from './components/Users'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Register from './components/Register'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <div className="container p-4">
+          <ToastContainer position="top-right" autoClose={3000} />
           <Routes>
             <Route path='/about' element={<About />} />
             <Route path="/" element={<Users />} />

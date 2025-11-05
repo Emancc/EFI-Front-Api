@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import icono from "../images/icono.png";
 import leon from "../images/minimalist Rastafari lion.png";
 import neon from "../images/Neon.png";
+import { toast } from "react-toastify"
 const API_URL = 'http://localhost:5000'
 
 const Register = () => {
@@ -19,40 +20,36 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!edit) {
-      console.log(username, email, password)
-      console.log(API_URL)
-      const response = await fetch(`${API_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password, role }),
-      })
-      const data = await response.json()
-      console.log(data);
-    }
-    else {
-      const response = await fetch(`${API_URL}/users/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password, role }),
-      })
-      console.log("Status", response.status)
-      const data = await response.json()
-      console.log("Data", data)
-      setEdit(false)
-      setId("")
+    console.log(username, email, password)
+    console.log(API_URL)
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password, role }),
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      // Si el backend mandó error estructurado
+      if (data.error) {
+        // Si hay errores específicos de campo (por ejemplo "email")
+        const mensajes = Object.entries(data.error)
+          .map(([campo, errores]) => `${campo}: ${errores.join(", ")}`)
+          .join("\n")
+        toast.error(`❌ Error:\n${mensajes}`)
+      } else {
+        toast.error(data.message || "Error desconocido")
+      }
+      return
     }
 
-    await getUsers()
-
+    toast.success("✅ Usuario registrado exitosamente")
     setName("")
     setEmail("")
     setPassword("")
-    alert(edit ? "Usuario actualizado" : "Usuario creado");
+    setRole("")
+    getUsers()
   }
 
 
@@ -67,34 +64,13 @@ const Register = () => {
     getUsers()
   }, [])
 
-  const deleteUser = async (id) => {
-    const response = await fetch(`${API_URL}/users/${id}`, {
-      method: "DELETE",
-    })
-    const data = await response.json()
-    console.log(data)
-    await getUsers()
-  }
-
-  const updateUser = async (id) => {
-    const response = await fetch(`${API_URL}/users/${id}`)
-    const data = await response.json()
-
-    setEdit(true)
-    setId(id)
-
-    setName(data.username)
-    setEmail(data.email)
-    setPassword(data.password)
-    setRole(data.role)
-  }
-
   return (
     <div className="container">
       <div
         className="row justify-content-center align-items-center border border-1 rounded-3 p-5 shadow-lg text-light"
         style={{ backgroundColor: "#099BC8" }}
       >
+        <span className="text-center fs-1 fw-bold mb-5"><span className="text-primary">MINI</span>BLOG</span>
         <div className="col-md-6">
           <h2 className="text-center mb-4 fs-2 fw-bold">Registrate aqui</h2>
           <form onSubmit={handleSubmit}>

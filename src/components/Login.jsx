@@ -1,29 +1,57 @@
+import { useState, useEffect } from "react"
+import { toast } from "react-toastify"
+const API_URL = 'http://localhost:5000'
+
+
 const Login = () => {
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password }),
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+            localStorage.setItem("token", data.access_token)
+            console.log(data.access_token)
+
+            toast.success("✅ Login exitoso")
+        } else {
+            toast.error(data.error || "Error en el login")
+        }
+    }
+
+
+
     return (
         <div className="container">
             <h1 className="text-center">Login</h1>
             <hr />
-            <form>
-                <div class="mb-3">
-                    <label for="exampleName" class="form-label">Nombre</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    <div id="emailHelp" class="form-text"></div>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input type="email" className="form-control" id="emaillogin" value={email} onChange={(e) => setEmail(e.target.value)} aria-describedby="emailHelp" />
+                    <div id="emailHelp" className="form-text">Nunca compartiremos tu email con nadie.</div>
                 </div>
-
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie.</div>
+                <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input type="password" className="form-control" id="passwordlogin" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" />
+                <div className="mb-3 form-check">
+                    <input type="checkbox" className="form-check-input" id="checkboxlogin" />
+                    <label className="form-check-label" >Check me out</label>
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>
     )

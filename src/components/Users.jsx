@@ -1,5 +1,8 @@
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react"
+import { toast } from "react-toastify"
+
+const token = localStorage.getItem("token")
 
 const API_URL = 'http://localhost:5000'
 
@@ -9,7 +12,7 @@ const Users = () => {
     const [username, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [role, setRole] = useState("")
+    const [role, setRole] = useState("user")
 
     const [edit, setEdit] = useState(false)
     const [id, setId] = useState("")
@@ -17,45 +20,100 @@ const Users = () => {
     const [allUsers, setAllUsers] = useState([])
     const [users, setUsers] = useState([])
 
+    // Función para crear o actualizar un usuario
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    try {
+        // Construir el body dinámicamente para no enviar password vacío
+        const bodyData = { username, email, role };
+        if (password) bodyData.password = password;
+
+        let response, data;
+
         if (!edit) {
-            console.log(username, email, password)
-            console.log(API_URL)
-            const response = await fetch(`${API_URL}/users`, {
+            // Crear usuario
+            response = await fetch(`${API_URL}/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ username, email, password, role }),
-            })
-            const data = await response.json()
-            alert("✅ Usuario creado exitosamente")
-            console.log(data)
-        }
-        else {
-            const response = await fetch(`${API_URL}/users/${id}`, {
+                body: JSON.stringify(bodyData),
+            });
+            data = await response.json();
+
+            if (!response.ok) {
+                toast.error(data.Mensaje || "Error al crear usuario");
+                return;
+            }
+
+            toast.success("✅ Usuario creado exitosamente");
+        } else {
+            // Actualizar usuario
+            response = await fetch(`${API_URL}/users/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ username, email, password, role }),
-            })
-            console.log("Status", response.status)
-            const data = await response.json()
-            console.log("Data", data)
-            alert("✅ Usuario actualizado exitosamente")
-            setEdit(false)
-            setId("")
+                body: JSON.stringify(bodyData),
+            });
+            data = await response.json();
+
+            if (!response.ok) {
+                toast.error(data.Mensaje || "Error al actualizar usuario");
+                return;
+            }
+
+            toast.success("✅ Usuario actualizado exitosamente");
+            setEdit(false);
+            setId("");
         }
-        await getUsers()
 
+        // Refrescar lista de usuarios
+        await getUsers();
 
-        setName("")
-        setEmail("")
-        setPassword("")
+        // Limpiar inputs
+        setName("");
+        setEmail("");
+        setPassword("");
+        setRole("");
+    } catch (error) {
+        console.error("Error en handleSubmit:", error);
+        toast.error("Ocurrió un error inesperado");
     }
+};
+
+const updateUser = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/users/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            toast.error(data.Mensaje || "Error al obtener usuario");
+            return;
+        }
+
+        setEdit(true);
+        setId(id);
+
+        setName(data.username);
+        setEmail(data.email);
+        setPassword("");  // No mostrar la contraseña
+        setRole(data.role || "user");
+
+    } catch (error) {
+        console.error("Error en updateUser:", error);
+        toast.error("Ocurrió un error inesperado al cargar usuario");
+    }
+};
+
 
 
     const getUsers = async () => {
@@ -91,28 +149,19 @@ const Users = () => {
 
             const data = await response.json();
             console.log(data);
-
+            toast.info("🗑️ Usuario eliminado correctamente");
             await Swal.fire("Eliminado", "El usuario fue eliminado correctamente.", "success");
+            
             await getUsers();
         } catch (error) {
             console.error(error);
             Swal.fire("Error", "Hubo un problema al eliminar el usuario.", "error");
         }
-    };
-
-
-    const updateUser = async (id) => {
-        const response = await fetch(`${API_URL}/users/${id}`)
-        const data = await response.json()
-
-        setEdit(true)
-        setId(id)
-
-        setName(data.username)
-        setEmail(data.email)
-        setPassword(data.password)
-        setRole(data.role)
+        toast.info("🗑️ Usuario eliminado correctamente");
     }
+
+
+
 
 
     const [filterUsernameValue, setFilterUsernameValue] = useState("");
