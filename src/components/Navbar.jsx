@@ -46,6 +46,15 @@ const Navbar = () => {
                 <Link
                   className="nav-link active text-secondary"
                   aria-current="page"
+                  to="/blogs/create"
+                >
+                  Create Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="nav-link active text-secondary"
+                  aria-current="page"
                   to="/blogs"
                 >
                   Blogs

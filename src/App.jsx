@@ -5,6 +5,7 @@ import Users from './components/Users'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Register from './components/Register'
+import BlogsCreate from './components/BlogsCreate'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path='/about' element={<About />} />
             <Route path="/" element={<Users />} />
+            <Route path="/blogs/create" element={<BlogsCreate />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

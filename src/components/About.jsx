@@ -93,6 +93,56 @@ const About = () => {
               </div>
             </div>
           </div>
+          <div className="col-md-5 col-lg-4 mb-4 mb-md-0">
+            <div className="card h-100 border-0 shadow-sm rounded-3">
+              <div className="card-body text-center p-4">
+                <div className="mx-auto mb-3">
+                  <div
+                    className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      fontSize: "2.5rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    JR
+                  </div>
+                </div>
+                <h4 className="mb-1">Joaquin Rodriguez</h4>
+                <p className="text-muted mb-3">Analista de Sistemas</p>
+                <p className="text-muted small">
+                  Analista de Sistemas con experiencia en el desarrollo de software.
+                </p>
+                <div className="mt-3">
+                  <a
+                    href="https://github.com/"
+                    target="_blank"
+                    className="text-decoration-none text-dark mx-2"
+                    title="GitHub"
+                  >
+                    <i className="bi bi-github fs-4"></i>
+                  </a>
+                  <a
+                    href="https://linkedin.com/"
+                    target="_blank"
+                    className="text-decoration-none text-dark mx-2"
+                    title="LinkedIn"
+                  >
+                    <i className="bi bi-linkedin fs-4"></i>
+                  </a>
+                  <a
+                    href="https://twitter.com/"
+                    target="_blank"
+                    className="text-decoration-none text-dark mx-2"
+                    title="Twitter"
+                  >
+                    <i className="bi bi-twitter fs-4"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="col-md-5 col-lg-4">
             <div className="card h-100 border-0 shadow-sm rounded-3">
