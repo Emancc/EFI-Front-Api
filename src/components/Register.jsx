@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import icono from "../images/icono.png";
+import icono from "../images/miniblog noceh+.png";
 import leon from "../images/minimalist Rastafari lion.png";
 import neon from "../images/Neon.png";
 import { toast } from "react-toastify"

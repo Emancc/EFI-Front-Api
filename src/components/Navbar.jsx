@@ -92,17 +92,17 @@ const Navbar = () => {
         <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className={({ isActive }) => "nav-link " + (isActive ? "text-white" : "text-secondary")} to="/bienvenida">
-                Bienvenida
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className={({ isActive }) => "nav-link " + (isActive ? "text-white" : "text-secondary")} to="/">
-                Users
+                Bienvenida
               </NavLink>
             </li>
             {token && (
               <>
+                <li className="nav-item">
+                  <NavLink className={({ isActive }) => "nav-link " + (isActive ? "text-white" : "text-secondary")} to="/users">
+                    Users
+                  </NavLink>
+                </li>
                 <li className="nav-item">
                   <NavLink className={({ isActive }) => "nav-link " + (isActive ? "text-white" : "text-secondary")} to="/blogs/create">
                     Create Blog
