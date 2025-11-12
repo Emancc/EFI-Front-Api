@@ -15,7 +15,7 @@ const BlogsCreate = () => {
         e.preventDefault()
         console.log(title, description, category)
         try {
-            const response = await fetch(`${API_URL}/blogs`, { // AWAIT the fetch call
+            const response = await fetch(`${API_URL}/blogs`, { 
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,15 +25,13 @@ const BlogsCreate = () => {
             })
 
             if (!response.ok) {
-                // If the response status is not in the 200-299 range,
-                // it's an error. Try to get error details from the server.
                 const errorData = await response.json().catch(() => ({ message: `Server error: ${response.statusText}` }));
                 console.error("Failed to create blog:", response.status, errorData);
                 toast.error(`❌ Error al crear blog: ${errorData.message || response.statusText}`);
-                return; // Stop further execution on error
+                return;
             }
 
-            const data = await response.json(); // Now this will work because response is the actual response object
+            const data = await response.json();
             console.log(data);
             setTitle("");
             setDescription("");
@@ -41,8 +39,6 @@ const BlogsCreate = () => {
             toast.success("✅ Blog creado exitosamente");
             getBlogs();
         } catch (error) {
-            // This catches network errors or issues with await response.json() if the
-            // response was not JSON (e.g., the HTML error page from the 500).
             console.error("Network or parsing error:", error);
             toast.error("❌ Error de conexión o formato de respuesta.");
         }

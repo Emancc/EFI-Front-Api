@@ -1,4 +1,3 @@
-// Blogs.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,7 +23,7 @@ const Blogs = () => {
 
                 const data = await response.json();
                 console.log("API response:", data);
-                setBlogs(data.blogs || []); // <-- aquí va el array real
+                setBlogs(data.blogs || []); 
             } catch (error) {
                 console.error(error);
                 toast.error("Error de conexión");
@@ -39,6 +38,8 @@ const Blogs = () => {
 
     return (
         <div className="row">
+            <h1 className="text-center">Blogs</h1>
+            <hr />
             {blogs.map((blog) => (
                 <div className="col-md-4 mb-4" key={blog.id}>
                     <div className="card h-100">

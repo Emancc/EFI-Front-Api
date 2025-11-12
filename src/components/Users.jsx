@@ -109,7 +109,6 @@ const Users = () => {
         }
     };
 
-
     const getUsers = async () => {
         const response = await fetch(`${API_URL}/users`, {
             method: 'GET',
@@ -131,15 +130,6 @@ const Users = () => {
         setUsers(data.users);
         localStorage.setItem("users", JSON.stringify(data.users));
     }
-/*     const getUsers = async () => {
-        const response = await fetch(`${API_URL}/users`)
-        const data = await response.json()
-        console.log(data)
-        setAllUsers(data.users)
-        setUsers(data.users)
-        localStorage.setItem("users", JSON.stringify(data.users))
-    } */
-
     useEffect(() => {
         getUsers()
     }, [])
@@ -180,10 +170,6 @@ const Users = () => {
         }
         toast.info("🗑️ Usuario eliminado correctamente");
     }
-
-
-
-
 
     const [filterUsernameValue, setFilterUsernameValue] = useState("");
     const [filterEmailValue, setFilterEmailValue] = useState("");

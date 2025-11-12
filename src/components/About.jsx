@@ -1,6 +1,3 @@
-import { Fragment } from "react";
-import icono from "../images/icono.png";
-
 const About = () => {
   return (
     <div className="container">

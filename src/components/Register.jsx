@@ -31,9 +31,7 @@ const Register = () => {
     })
     const data = await response.json()
     if (!response.ok) {
-      // Si el backend mandó error estructurado
       if (data.error) {
-        // Si hay errores específicos de campo (por ejemplo "email")
         const mensajes = Object.entries(data.error)
           .map(([campo, errores]) => `${campo}: ${errores.join(", ")}`)
           .join("\n")
@@ -96,7 +94,6 @@ const Register = () => {
               />
               <div id="emailHelp" className="form-text"></div>
             </div>
-
             <div className="mb-3">
               <label className="form-label">
                 Email
@@ -138,7 +135,6 @@ const Register = () => {
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)
-
                 }>
                 <option value="">-</option>
                 <option value="user">User</option>

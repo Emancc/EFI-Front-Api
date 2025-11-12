@@ -5,6 +5,7 @@ import Users from './components/Users'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Register from './components/Register'
+import Bienvenida from './components/Bienvenida'
 import BlogsCreate from './components/BlogsCreate'
 import BlogDetail from './components/BlogDetail'
 import { ToastContainer } from "react-toastify";
@@ -20,13 +21,14 @@ function App() {
         <div className="container p-4">
           <ToastContainer position="top-right" autoClose={3000} />
           <Routes>
+            <Route path="/" element={<Register />} />
             <Route path='/about' element={<About />} />
-            <Route path="/" element={<Users />} />
+            <Route path="/bienvenida" element={<Bienvenida />} />
+            <Route path="/users" element={<Users />} />
             <Route path="/blogs/create" element={<BlogsCreate />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/:id" element={<BlogDetail />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </BrowserRouter>
