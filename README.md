@@ -72,7 +72,7 @@ Tecnologías utilizadas:
 - en mac <br/>**flask run --reload**
 
 ## Estructura del proyecto
-> [!INFO]
+
 >EFI-Front-Api/
 >
 >├── public/                 
