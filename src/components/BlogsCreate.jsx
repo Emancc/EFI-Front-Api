@@ -1,11 +1,13 @@
 import { toast } from "react-toastify"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const token = localStorage.getItem("token")
 
 const API_URL = 'http://localhost:5000'
 
 const BlogsCreate = () => {
+    const navigate = useNavigate()
     const [categories, setCategories] = useState([]);
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -38,6 +40,7 @@ const BlogsCreate = () => {
             setCategory("");
             toast.success("✅ Blog creado exitosamente");
             getBlogs();
+            navigate("/blogs");
         } catch (error) {
             console.error("Network or parsing error:", error);
             toast.error("❌ Error de conexión o formato de respuesta.");
@@ -68,7 +71,13 @@ const BlogsCreate = () => {
 
     return (
         <div className="container">
-            <h1 className="text-center">Crear Blog</h1>
+            <h1 className="text-center bg-primary text-white p-2 rounded mb-2">Create Blog</h1>
+            <ul className="list-unstyled text-center">
+                <li className="text-secondary">📖libera tu creatividad y comparte tus pensamientos con el mundo</li>
+                <li className="text-secondary">👌 En nuestra comunidad nos gusta que te sientas cómodo</li>
+                <li className="text-secondary">📝 Podrás clasificar tus blogs a través de categorías preestablecidas</li>
+            </ul>
+            <hr />
             <form action="">
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>

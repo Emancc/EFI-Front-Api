@@ -71,12 +71,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+    <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
       <div className="container-fluid">
-        <NavLink className="navbar-brand text-white" to="/">
-          Flask con React
-        </NavLink>
-
+        <NavLink className="navbar-brand text-white" to="/"><span className="fw-bold text-primary fs-4">MINI</span><span className="fw-bold fs-4">BLOG</span></NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -91,11 +88,6 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <NavLink className={({ isActive }) => "nav-link " + (isActive ? "text-white" : "text-secondary")} to="/">
-                Bienvenida
-              </NavLink>
-            </li>
             {token && (
               <>
                 <li className="nav-item">

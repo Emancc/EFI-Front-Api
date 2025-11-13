@@ -226,7 +226,7 @@ const Users = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container border border-dark p-4 rounded">
             <h1 className="text-center">Create & Manage Users</h1>
             <hr />
             <div className="row">

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
 
 const API_URL = "http://localhost:5000";
 
@@ -106,65 +105,72 @@ const BlogDetail = () => {
     if (!blog) return <p>No se encontró el blog.</p>;
 
     return (
-        <div className="card m-3 p-3 shadow-sm" style={{ maxWidth: "600px" }}>
-            <h1>Detalle del Blog</h1>
-            <div className="card-body">
-                <h3 className="card-title">{blog.title}</h3>
-                <p className="text-muted">
-                    Autor: <strong>{blog.author?.username}</strong> | Fecha:{" "}
-                    {new Date(blog.created_at).toLocaleDateString()}
-                </p>
-                <p className="card-text">{blog.description}</p>
+        <>
 
-                {blog.category && (
-                    <span className="badge bg-primary">{blog.category.name}</span>
-                )}
+            <h1 className="text-center bg-primary text-white p-2 rounded mb-2">Detalle del Blog</h1>
+            <div className="container d-flex flex-column align-items-center justify-content-center">
+                <hr className="w-100" />
 
-                <div className="mt-4">
-                    <h5>Agregar comentario</h5>
-                    <form onSubmit={handleCreateComment}>
-                        <textarea
-                            className="form-control"
-                            rows="3"
-                            placeholder="Escribe tu comentario..."
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            disabled={saving}
-                        />
-                        <button type="submit" className="btn btn-success mt-2" disabled={saving}>
-                            {saving ? "Publicando..." : "Publicar"}
-                        </button>
-                    </form>
-                </div>
+                <div className="card m-5 p-3 shadow-sm">
+                    <div className="card-body">
+                        <h3 className="card-title text-center fw-bold fs-3 mb-4 text-primary">{blog.title.toUpperCase()}</h3>
+                        <p className="text-muted">
+                            Autor: <strong>{blog.author?.username}</strong> | Fecha:{" "}
+                            {new Date(blog.created_at).toLocaleDateString()}
+                        </p>
+                        <p className="card-text">{blog.description}</p>
 
-                {blog.comments?.length > 0 && (
-                    <div className="mt-3">
-                        <h5>Comentarios:</h5>
-                        <ul className="list-group">
-                            {blog.comments.map((c) => (
-                                <li
-                                    key={c.id}
-                                    className="list-group-item d-flex justify-content-between align-items-center"
-                                >
-                                    <span>
-                                        <strong>{c.user?.username}: </strong>
-                                        {c.description}
-                                    </span>
-                                    {c.user_id === userId && (
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() => handleDeleteComment(c.id)}
+                        {blog.category && (
+                            <span className="badge bg-primary">{blog.category.name}</span>
+                        )}
+
+                        <div className="mt-4">
+                            <h5>Agregar comentario</h5>
+                            <form onSubmit={handleCreateComment}>
+                                <textarea
+                                    className="form-control"
+                                    rows="3"
+                                    placeholder="Escribe tu comentario..."
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    disabled={saving}
+                                />
+                                <button type="submit" className="btn btn-success mt-2" disabled={saving}>
+                                    {saving ? "Publicando..." : "Publicar"}
+                                </button>
+                            </form>
+                        </div>
+
+                        {blog.comments?.length > 0 && (
+                            <div className="mt-3">
+                                <h5>Comentarios:</h5>
+                                <ul className="list-group">
+                                    {blog.comments.map((c) => (
+                                        <li
+                                            key={c.id}
+                                            className="list-group-item d-flex gap-4 justify-content-between align-items-center"
                                         >
-                                            Eliminar
-                                        </button>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                                            <span>
+                                                <strong>{c.user?.username}: </strong>
+                                                {c.description}
+                                            </span>
+                                            {c.user_id === userId && (
+                                                <button
+                                                    className="btn btn-sm btn-danger"
+                                                    onClick={() => handleDeleteComment(c.id)}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

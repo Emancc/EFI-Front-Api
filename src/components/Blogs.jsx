@@ -23,7 +23,7 @@ const Blogs = () => {
 
                 const data = await response.json();
                 console.log("API response:", data);
-                setBlogs(data.blogs || []); 
+                setBlogs(data.blogs || []);
             } catch (error) {
                 console.error(error);
                 toast.error("Error de conexión");
@@ -38,21 +38,22 @@ const Blogs = () => {
 
     return (
         <div className="row">
-            <h1 className="text-center">Blogs</h1>
+            <h1 className="text-center bg-primary text-white p-2 rounded mb-2">Blogs</h1>
             <hr />
             {blogs.map((blog) => (
                 <div className="col-md-4 mb-4" key={blog.id}>
                     <div className="card h-100">
                         <div className="card-body">
-                            <h5 className="card-title">{blog.title}</h5>
+                            <h5 className="card-title text-center text-primary fs-4 fw-semibold">{blog.title.toUpperCase()}</h5>
+                            <hr />
                             <p className="card-text">
-                                {blog.description.length > 100
+                                📝{blog.description.length > 100
                                     ? blog.description.slice(0, 100) + "..."
                                     : blog.description}
                             </p>
                         </div>
-                        <div className="card-footer">
-                            <small className="text-muted">
+                        <div className="card-footer bg-dark">
+                            <small className="text-white">
                                 Autor: {blog.author?.username || "Desconocido"} | Categoría: {blog.category?.name || "-"}
                             </small>
                             <br />
